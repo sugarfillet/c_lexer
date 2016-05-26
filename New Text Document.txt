@@ -1,0 +1,9 @@
+a<=5int main(){
+	int _a<= 50;
+	float sum = 0.0
+	for(int i = 0; i <= _a;i++)
+		sum += sum + i;
+		print("%s\n",sum);
+
+
+}
