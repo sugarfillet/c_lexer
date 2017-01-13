@@ -1,9 +1,9 @@
-a<=5int main(){
-	int _a<= 50;
-	float sum = 0.0
-	for(int i = 0; i <= _a;i++)
-		sum += sum + i;
-		print("%s\n",sum);
+20160113 17
+1.调查systemd的工作原理及其常用命令
+【很好的入门教程】 http://www.centoscn.com/CentOS/Intermediate/2016/0611/7431.html
+【wiki】 https://www.freedesktop.org/wiki/Software/systemd/
+ {问题} systemd主要负责系统启动和服务管理；测试（卸载，安装，配置，命令...）systemd，会不会导致系统出错？有没有方案来测试systemd？
+2. 看了些 docker 和 sysstat 的资料
+【docker】 https://docs.docker.com/engine/installation/linux/fedora/
+【sysstat】http://sebastien.godard.pagesperso-orange.fr/tutorial.html
 
-
-}
