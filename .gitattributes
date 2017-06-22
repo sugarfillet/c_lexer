@@ -1,17 +1,121 @@
-# Auto detect text files and perform LF normalization
-* text=auto
 
-# Custom for Visual Studio
-*.cs     diff=csharp
+from _abcoll import Iterable
+from functools import reduce
+import string
+from numbers import Integral
+import functools
 
-# Standard to msysgit
-*.doc	 diff=astextplain
-*.DOC	 diff=astextplain
-*.docx diff=astextplain
-*.DOCX diff=astextplain
-*.dot  diff=astextplain
-*.DOT  diff=astextplain
-*.pdf  diff=astextplain
-*.PDF	 diff=astextplain
-*.rtf	 diff=astextplain
-*.RTF	 diff=astextplain
+#changable iterable 
+a=22
+b=True
+str='abc'
+l=[1,2,3,4,]
+t=(1,3,3,)
+d={1:'a',2:'b',}
+s=set(t)
+
+all=[]
+all.append(a)
+all.append(b)
+all.append(str)
+all.append(l)
+all.append(t)
+all.append(d)
+all.append(s)
+
+print(all)
+
+#iterable
+for x in all:
+    print(type(x),isinstance(x, Iterable))
+
+for i,v in enumerate(l):
+    print(i,v)
+    
+#list generator
+print([i for i in range(1,10,3)])
+print([m+n for m in 'abc' for n in 'xyz'])
+
+#fib
+def fib(n):
+    a,b=0,1
+    i=1
+    while i<=n:
+        print(b)
+        a,b=b,a+b
+        i += 1
+    return b
+
+print(fib(3))
+
+#fib generator 
+def fibg(n):
+    a,b=0,1
+    i=1
+    while i<=n:
+        yield b
+        a,b=b,a+b
+        i += 1
+    #return b
+
+print(next(fibg(3)),isinstance(fibg(3), Iterable))
+
+
+#map
+def x2(x):
+    return x*x
+print(list(map(x2,l)))
+
+#reduce
+def add(x,y):
+    return x+y
+print(reduce(add,l))
+
+
+#filter
+def is_odd(x):
+    return x%2 == 1
+
+print(list(filter(is_odd,l)))
+
+#sorted
+print(sorted([36, 5, -12, 9, -21], key=abs))
+
+#return func() bibao
+
+def lasy_sum(*args):
+    def sum():
+        s=0
+        for i in args:
+            s += i
+        return s
+    return sum
+
+#f = lazy_sum(1, 3, 5, 7, 9)
+
+print(list(map(lambda x:x*x,[1,])))
+
+
+#deractor
+
+def printa(func):
+    def _print():
+        for i in func():
+            print(i)
+    return _print
+
+@printa
+def getString():
+    return [ x for x in  range(5)]
+
+getString()
+
+
+#pian func
+print(int('1234',base=8))
+#int('1234',base=2)xxxxx
+int8 = functools.partial(int , base=8)
+print(int8('1234'))
+
+
+
