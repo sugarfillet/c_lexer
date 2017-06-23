@@ -1,4 +1,9 @@
+'''
+Created on 2017-6-22
 
+@author: sWX451341
+'''
+===basic
 from _abcoll import Iterable
 from functools import reduce
 import string
@@ -6,6 +11,7 @@ from numbers import Integral
 import functools
 
 #changable iterable 
+#所有的数据类型 ： 分为  可变  可迭代
 a=22
 b=True
 str='abc'
@@ -81,7 +87,7 @@ print(list(filter(is_odd,l)))
 #sorted
 print(sorted([36, 5, -12, 9, -21], key=abs))
 
-#return func() bibao
+#return func() 闭包就是返回函数
 
 def lasy_sum(*args):
     def sum():
@@ -93,6 +99,7 @@ def lasy_sum(*args):
 
 #f = lazy_sum(1, 3, 5, 7, 9)
 
+#匿名函数
 print(list(map(lambda x:x*x,[1,])))
 
 
@@ -113,12 +120,14 @@ getString()
 
 #pian func
 print(int('1234',base=8))
-#int('1234',base=2)xxxxx
 int8 = functools.partial(int , base=8)
 print(int8('1234'))
 
 
-#class
+
+===class
+
+# simple class
 class Student(object):
     def __init__(self,name,age):
         self.name=name
@@ -131,7 +140,7 @@ print(aa.age)
 aa.age=8
 print(aa.age)
 
-#private
+#private and get set
 class Student2(object):
     def __init__(self,name,age):
         self.__name=name
@@ -152,9 +161,7 @@ print(s2.get_name())
 
 
 
-#du tai
-
-
+#多态 开闭原则
 
 class Animal(object):
     def run(self):
@@ -185,8 +192,8 @@ print(type(Husky(5,'a')))
 print(isinstance(Husky(5,'a'), (Animal,Dog)))
 
 run_twice(Animal())
-run_twice(Dog())#duo tai 
-run_twice(Abc())#duck theory |||| file-like object
+run_twice(Dog())#多态
+run_twice(Abc())#鸭子类型： file-like object
 
 print(dir('ABC'))
 print('ABC'.__len__())
@@ -214,12 +221,14 @@ f = Father()
 print(f.name)
 f.abc='abc'
 print(f.abc)
-f.name='f . property name'
+f.name='f.property name'
 print(f.name)
 del f.name
 print(f.name)
        
-        # -*- coding: utf-8 -*-
+===class-ad
+
+# -*- coding: utf-8 -*-
 
 #static_l dynamic_l 
 #python 可以动态的给实例添加属性（方法）
@@ -249,6 +258,8 @@ xiao = XiaoStudent()
 #xiao.abc = 1
 #print(xiao.abc)
 
+
+#==========
 # 属性绑定 限制  还是不够  s.score=9 ，没有对参数进行限制
 # 可以设置get set 方法 ，来实现属性检查，但是方法的 调用显得繁琐 ，
 #采用直接的简单的get set方法  @property
@@ -278,6 +289,8 @@ print(s1.score)
 #枚举类
 #元类
 
+
+===execption
 # -*- coding: utf-8 -*-
 #简单的错误判断机制  太繁琐了 
 #出现了 try catch finally:
@@ -313,11 +326,7 @@ try:
 except FooError as e :
     print(e)
 
-
-
-
-======file
-
+===file
 
 # -*- coding: utf-8 -*-
 
@@ -400,8 +409,9 @@ print(json.loads(json_str, object_hook=dict2student))
 
 
 
+===p1
 
-====process 
+
 from multiprocessing import Process
 import os
 
@@ -440,8 +450,8 @@ print('all done')
 
 
 
+===p2
 
-=====p2
 '''
 Created on 2017-6-23
 
@@ -476,9 +486,9 @@ if __name__ == '__main__':
     pw.join()
     pr.terminate()
     
-    
-    ====t1
-    '''
+===t1
+  
+'''
 Created on 2017-6-23
 
 @author: sWX451341
@@ -500,8 +510,8 @@ t.start()
 t.join()
 print('%s is over'  % threading.current_thread().name)
 
-    ====t2
-    
+===t2
+
 '''
 Created on 2017-6-23
 
@@ -567,7 +577,6 @@ t11.start()
 t22.start()
 t11.join()
 t22.join()
-
 
 
 
