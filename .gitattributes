@@ -118,4 +118,464 @@ int8 = functools.partial(int , base=8)
 print(int8('1234'))
 
 
+#class
+class Student(object):
+    def __init__(self,name,age):
+        self.name=name
+        self.age=age
+        
+        
+
+aa=Student('a',5)
+print(aa.age)
+aa.age=8
+print(aa.age)
+
+#private
+class Student2(object):
+    def __init__(self,name,age):
+        self.__name=name
+        self.__age=age
+    def set_name(self,name):
+        self.__name = name
+    def get_name(self):
+        return self.__name   
+        
+s2=Student2('B',6)
+
+#print(s2.__name)
+print(s2._Student2__name)#get private properity
+
+print(s2.get_name())#get and set
+s2.set_name('b')
+print(s2.get_name())
+
+
+
+#du tai
+
+
+
+class Animal(object):
+    def run(self):
+        print('animal run ...')
+class Dog(Animal):
+    def run(self):
+        print('dog run ...')
+    def __len__(self):
+        return 100
+class Husky(Dog):
+    def __init__(self,weight,name):
+        self.__weight = weight
+        self.name = name
+    def run(self):
+        print('husky run ...')
+class Abc(object):
+    def run(self):
+        print('abc run ...')
+        
+        
+        
+def run_twice(x):
+    for i in range(2):
+        x.run()
+        
+# type isinstance
+print(type(Husky(5,'a')))
+print(isinstance(Husky(5,'a'), (Animal,Dog)))
+
+run_twice(Animal())
+run_twice(Dog())#duo tai 
+run_twice(Abc())#duck theory |||| file-like object
+
+print(dir('ABC'))
+print('ABC'.__len__())
+#define __len__ dog
+print(dir(Dog()))
+print(Dog().__len__())
+print(len(Dog()))
+
+#get set ha attr()
+hs = Husky(55,'a')
+print(hasattr(hs, '__weight')) #can't get private property
+print(hasattr(hs, 'name'))
+print(getattr(hs, 'name'))
+print(setattr(hs, 'name','asdfsf'))
+print(getattr(hs, 'name'))
+
+
+#class property and instance property
+
+class Father(object):
+    name='father property'
+
+
+f = Father()
+print(f.name)
+f.abc='abc'
+print(f.abc)
+f.name='f . property name'
+print(f.name)
+del f.name
+print(f.name)
+       
+        # -*- coding: utf-8 -*-
+
+#static_l dynamic_l 
+#python 可以动态的给实例添加属性（方法）
+#python 对于数据类型的要求不严格 
+#python 鸭子类型
+#动态语言和静态语言最大的不同，就是函数和类的定义，不是编译时定义的，而是运行时动态创建的
+
+#限制属性绑定
+class Student(object):
+    __slots__ = ('name','age')
+
+s = Student()
+s.name = 9
+print(s.name)  
+#AttributeError: 'Student' object has no attribute 'abc  
+#s.abc = 1
+#print(s.abc)
+
+# 子类属性绑定的限制 ，如果不声明slots，则不继承
+
+class XiaoStudent(object):
+    __slots__ = () #AttributeError: 'XiaoStudent' object has no attribute 'abc'
+    pass
+
+xiao = XiaoStudent()
+
+#xiao.abc = 1
+#print(xiao.abc)
+
+# 属性绑定 限制  还是不够  s.score=9 ，没有对参数进行限制
+# 可以设置get set 方法 ，来实现属性检查，但是方法的 调用显得繁琐 ，
+#采用直接的简单的get set方法  @property
+
+class Student1(object):
+    
+    
+    #def getter
+    
+    @property
+    def score(self):
+        return self._score
+    
+    @score.setter
+    def score(self, value):
+        if not isinstance(value, int):
+            raise ValueError('score must be an integer!')
+        if value < 0 or value > 100:
+            raise ValueError('score must between 0 ~ 100!')
+        self._score = value
+
+s1 = Student1()
+s1.score = -1
+print(s1.score)
+
+#多重继承  和  定制类  简单了解
+#枚举类
+#元类
+
+# -*- coding: utf-8 -*-
+#简单的错误判断机制  太繁琐了 
+#出现了 try catch finally:
+
+#不需要在每个可能出错的地方去捕获错误，只要在合适的（最上的）层次去捕获错误就可以了
+
+try : 
+    print('try start')
+    r = 10 / int('1')
+    print('result:' , r)
+except ValueError as e:
+    print('ValueError:', e)    
+except ZeroDivisionError as e:
+    print('get zero divison error:',e)
+else:
+    print('no error')
+finally:
+    print('finally')
+   
+   
+#自定义 error 并抛出
+class FooError(ValueError):
+    pass
+
+def foo(s):
+    n = int(s)
+    if n==0:
+        raise FooError('invalid value: %s' % s)
+    return 10 / n
+
+try:
+    foo('0') 
+except FooError as e :
+    print(e)
+
+
+
+
+======file
+
+
+# -*- coding: utf-8 -*-
+
+filename = 'hello'
+with open(filename,'r') as f:
+    for line in f:
+        print(line)
+        
+#像open()函数返回的这种有个read()方法的对象，在Python中统称为file-like Object
+
+
+with open(filename,'w') as f:
+    f.write('nihia')
+
+
+#StringIO/BytesIO write
+from io import StringIO
+
+f = StringIO()
+f.write('hello')
+f.write('wrold')
+
+print(f.getvalue())
+
+#StringIO/BytesIO read
+
+f = StringIO("hello!\nMIAOMI!")
+print(f.read())
+while 1:
+    s = f.readline()
+    if s=='':
+        break
+    print(s)
+    
+
+
+#OS
+
+import os
+print(type(os.environ))
+print(os.environ.get('PATH'))
+print(os.path.abspath('.'))
+print(os.path.join('/Users/michael', 'testdir'))
+print([x for x in os.listdir('.') if os.path.isfile(x) and os.path.splitext(x)[1]=='.py'])
+
+
+#json 
+import json
+
+
+
+d={ 'name':'song','age':5,'school':'nuist' }
+print(json.dumps(d))
+json_str = '{"age": 5, "name": "song", "school": "nuist"}'
+print(json.loads(json_str))
+
+
+# instance xuliehua
+
+class Student(object):
+    def __init__(self, name, age, score):
+        self.name = name
+        self.age = age
+        self.score = score
+        
+def student2dict(std):
+        return {
+        'name': std.name,
+        'age': std.age,
+        'score': std.score
+        }
+def dict2student(d):
+    return Student(d['name'], d['age'], d['score'])
+
+s = Student('Bob', 20, 88)
+#print(json.dumps(s),)
+print(json.dumps(s, default=student2dict))
+json_str = '{"age": 20, "score": 88, "name": "Bob"}'
+print(json.loads(json_str, object_hook=dict2student))
+
+
+
+
+====process 
+from multiprocessing import Process
+import os
+
+#create child process
+
+def child_func():
+    print("child process is %s" % os.getpid())
+    
+print("current process is %s" % os.getpid())
+p=Process(target=child_func)
+print('child is starting...')
+p.start()
+p.join(5)
+print('child is done')
+
+
+#process pool
+from multiprocessing import Pool
+import os, time, random
+
+def pool_func(name):
+    print('run task %s pid is %s' % (name , os.getpid()))
+    start = time.time()
+    time.sleep(random.random()*3)
+    end = time.time()
+    print('run task %s time is %f s' %(name , (end - start)))
+    
+print('current pid is %s' % os.getpid())
+pol = Pool(4)
+for i in range(5):
+    pol.apply_async(pool_func,args=(i,))
+print('waiting for subprocess done')
+pol.close()
+pol.join()
+print('all done')
+
+
+
+
+=====p2
+'''
+Created on 2017-6-23
+
+@author: sWX451341
+'''
+
+#进程间通信
+
+from multiprocessing import Process ,Queue
+import os ,time ,random
+
+def write(q):
+    print('write process is %s' % os.getpid())
+    for v in 'abc':
+        q.put(v)
+        time.sleep(random.random())
+        
+def read(q):     
+    print('read process is %s' % os.getpid())
+    while 1:
+        value = q.get(True)
+        print('get " %s " form queue' % value)
+        
+if __name__ == '__main__':
+    q = Queue()
+    pw = Process(target=write ,args=(q,))
+    pr = Process(target=read ,args=(q,))
+    
+    pw.start()
+    pr.start()
+    
+    pw.join()
+    pr.terminate()
+    
+    
+    ====t1
+    '''
+Created on 2017-6-23
+
+@author: sWX451341
+'''
+#create a thread
+
+import time ,threading
+
+def thread_do():
+    print('thread %s is running ..' % threading.Thread().name)
+    for i in range(5):
+        print('thread %s >> %s' % (threading.Thread().name,i))
+        time.sleep(1)
+    print('thread %s is over ' % threading.Thread().name)
+    
+print(threading.current_thread().name)
+t  = threading.Thread( target=thread_do, name='doThread')
+t.start()
+t.join()
+print('%s is over'  % threading.current_thread().name)
+
+    ====t2
+    
+'''
+Created on 2017-6-23
+
+@author: sWX451341
+'''
+
+#Python虽然不能利用多线程实现多核任务，但可以通过多进程实现多核任务。
+#多个Python进程有各自独立的GIL锁，互不影响。
+#python 每一个进程都有一个独立个gil锁，
+#这就保证了一个进程的所有线程不能跑到别的cpu执行
+
+import threading
+
+balance=0
+lock = threading.Lock()
+
+def change(n):
+    global balance
+    balance += n
+    balance -= n
+    
+def doThread(n):
+    
+    for i in range(10000):
+        lock.acquire()
+        try:
+            change(n)
+        finally:
+            lock.release()
+
+t1 = threading.Thread(target=doThread,args=(5,))
+t2 = threading.Thread(target=doThread,args=(3,))
+
+t1.start()
+t2.start()
+t1.join()
+t2.join()
+print(balance)
+
+
+
+
+#一个ThreadLocal变量虽然是全局变量，
+#但每个线程都只能读写自己线程的独立副本，互不干扰。
+#ThreadLocal解决了参数在一个线程中各个函数之间互相传递的问题。
+
+import threading
+
+local = threading.local()
+
+def process_student():
+    name = local.name
+    print(name)
+
+def process_thread(name):
+    local.name = name 
+    process_student()
+
+
+t11 = threading.Thread(target=process_thread,args=('aaa',))
+t22 = threading.Thread(target=process_thread,args=('bbb',))
+t11.start()
+t22.start()
+t11.join()
+t22.join()
+
+
+
+
+
+
+
+
+
+
+
 
