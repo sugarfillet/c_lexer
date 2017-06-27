@@ -582,6 +582,208 @@ t22.join()
 
 
 
+==tcp_c
+import socket
+
+s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect(('huawei.com',80))
+
+s.send(b'GET / HTTP/1.1\r\nHost: www.huawei.com\r\nConnection: close\r\n\r\n')
+
+
+buffer = []
+while True:
+    d = s.recv(1024)
+    if d:
+        buffer.append(d)
+    else:
+        break
+data = b''.join(buffer)
+
+s.close()
+
+
+#print(data)
+
+header, html = data.split(b'\r\n\r\n', 1)
+print(header.decode('utf-8'))
+
+with open('sina.html', 'wb') as f:
+    f.write(html)
+    
+    
+==tcp_s
+
+#tcp sock.sock() .send() .recv() .close() .bind() .listen() .accept()
+import socket
+import threading
+
+
+def tcplink(sock ,addr ):
+    pass
+#    print('i am the server thread i get $s:%s ' % addr)
+    sock.send(b'welcome !\n')
+    while 1:
+        data = sock.recv(1024)
+        if not data or data.decode('utf-8') == 'exit':
+            break
+        sock.send(('hello , %s' % data.decode('utf-8')).encode('utf-8'))
+    sock.close()
+    print('i am the server '+threading.Thread().name+' i am over')
+    
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind(('127.0.0.1', 9999))
+
+s.listen(5)
+print('Waiting for connection...')
+
+while True:
+    sock, addr = s.accept()
+    t = threading.Thread(target=tcplink, args=(sock, addr),name='XIANCHENG')
+    t.start()
+    
+
+    
+        
+==tcp_sc
+
+import socket
+
+s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+s.connect(('127.0.0.1',9999))
+
+print(s.recv(1024).decode('utf-8'))
+
+for data in [b'aaa',b'bbb',b'ccc']:
+    s.send(data)
+    print(s.recv(1024).decode('utf-8'))
+
+s.send(b'exit')
+s.close()
+
+==udp_s
+
+import socket
+
+
+s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+s.bind(('127.1.1.1',9998))
+
+
+print('bond udp on p 9998')
+
+while 1:
+    data , addr = s.recvfrom(1024)
+    print('get message from client ')
+    s.sendto((b'hello , %s!' % data),addr)
+    
+
+
+==udp_sc
+
+import socket
+
+
+s = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+addr = ('127.1.1.1',9998)
+
+for data in [b'aaa',b'ccc']:
+    s.sendto(data,addr)
+    print(s.recv(1024).decode('utf-8'))
+    
+    
+s.close()
+
+
+
+==sqlite
+
+import sqlite3
+
+
+conn = sqlite3.connect('test.db')
+cursor = conn.cursor()
+
+#cursor.execute('create table user (id varchar(20) primary key, name varchar(20))')
+#cursor.execute('insert into user (id, name) values (\'1\', \'Michael\')')
+cursor.execute('select * from user where id=?', ('1',))
+values = cursor.fetchall()
+print(values)
+cursor.close()
+conn.commit()
+conn.close()
+
+==modules
+
+#datetime class
+#from <module> import <func/class>
+from collections import defaultdict, deque, namedtuple, OrderedDict
+from datetime import datetime
+import time
+#get now
+date = datetime.now()
+print(datetime.now())
+print(type(date))
+#contruct time
+dt = datetime(2017, 6, 27, 12, 20)
+print(dt)
+#time -> stamp
+stamp = time.mktime(dt.timetuple())
+print(stamp)
+#stamp -> time
+print(datetime.fromtimestamp(stamp))
+#str -> time
+str = '2015-6-1 18:19:59'
+format = '%Y-%m-%d %H:%M:%S'
+cday = datetime.strptime(str , format)
+print(cday)
+#time -> str
+str1 = datetime.strftime(cday,format)
+print(str1)
+
+#namedtuple
+
+
+Point = namedtuple('Point', ('x','y'))
+print(Point)
+p = Point(1,2)
+print(p,isinstance(p, tuple))
+
+
+#deque
+
+
+q = deque(['1','2','3'])
+q.append('4')
+q.appendleft('0')
+print(q)
+
+#defaultdict
+
+d = defaultdict(lambda: 'dd-no')
+d['k1'] = 'v1'
+print(d)
+print(d['k2'])
+
+#orderedict
+
+d = dict([(1,'a'),(2,'b'),(3,'c')])
+print(d)
+
+od = OrderedDict([(1,'a'),(2,'b'),(3,'c')])
+print(od)
+
+#base64 主要用于编码少量文本，用于传输
+#struct 实现基本数据类型到字节的映射
+#haslib 用于单项加密
+#itertools 迭代工具
+#contentlib 上下文装饰器
+#urllib htpp请求工具
+#xml sax xml解析
+#htmlparser 
+    
+    
 
 
 
